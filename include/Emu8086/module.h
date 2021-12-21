@@ -20,7 +20,7 @@ void Emu8086_Module_Finish();
 
 void Emu8086_Module_Register(const Module_t* module);
 
-bool Emu8086_Module_InitAll();
+void Emu8086_Module_InitAll();
 void Emu8086_Module_FinishAll();
 void Emu8086_Module_TickAll();
 
