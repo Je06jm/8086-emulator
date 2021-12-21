@@ -60,9 +60,11 @@ extern bool Emu8086_State_Running;
     ((byte_t)(Emu8086_State_Regs[reg] >> 8))
 
 #define SET_LOWER(reg, value)\
-    Emu8086_State_Regs[reg] = Emu8086_State_Regs[reg] & 0xff00 | ((byte_t)value);
+    Emu8086_State_Regs[reg] = Emu8086_State_Regs[reg] & 0xff00 |\
+    ((byte_t)value);
 
 #define SET_UPPER(reg, value)\
-    Emu8086_State_Regs[reg] = Emu8086_State_Regs[reg] & 0xff | (((byte_t)value) << 8);
+    Emu8086_State_Regs[reg] = Emu8086_State_Regs[reg] & 0xff |\
+    (((byte_t)value) << 8);
 
 #endif
