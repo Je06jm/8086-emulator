@@ -8,6 +8,8 @@
 #include "error.h"
 #include "list.h"
 
+extern void LoadEmuModules();
+
 void Emu8086_Core_Init() {
     Emu8086_Memory_Init();
     Emu8086_Module_Init();
