@@ -29,22 +29,22 @@ void Emu8086_Memory_Finish() {
     write_word_funcs.Finish(&write_word_funcs);
 }
 
-void Emu8086_Memory_RegisterReadByte(Emu8086_Memory_FuncReadByte* device) {
+void Emu8086_Memory_RegisterReadByte(Emu8086_Memory_FuncReadByte device) {
     TestForNull(device);
     read_byte_funcs.PushBack(&read_byte_funcs, device);
 }
 
-void Emu8086_Memory_RegisterWriteByte(Emu8086_Memory_FuncWriteByte* device) {
+void Emu8086_Memory_RegisterWriteByte(Emu8086_Memory_FuncWriteByte device) {
     TestForNull(device);
     write_byte_funcs.PushBack(&write_byte_funcs, device);
 }
 
-void Emu8086_Memory_RegisterReadWord(Emu8086_Memory_FuncReadWord* device) {
+void Emu8086_Memory_RegisterReadWord(Emu8086_Memory_FuncReadWord device) {
     TestForNull(device);
     read_word_funcs.PushBack(&read_word_funcs, device);
 }
 
-void Emu8086_Memory_RegisterWriteWord(Emu8086_Memory_FuncWriteWord* device) {
+void Emu8086_Memory_RegisterWriteWord(Emu8086_Memory_FuncWriteWord device) {
     TestForNull(device);
     write_word_funcs.PushBack(&write_word_funcs, device);
 }
@@ -58,6 +58,8 @@ byte_t Emu8086_Memory_ReadByte(address_t address) {
         func = read_byte_funcs.Index(&read_byte_funcs, i);
         value |= func(address);
     }
+    
+    return value;
 }
 
 void Emu8086_Memory_WriteByte(address_t address, byte_t value) {
@@ -77,6 +79,8 @@ word_t Emu8086_Memory_ReadWord(address_t address) {
         func = read_word_funcs.Index(&read_word_funcs, i);
         value |= func(address);
     }
+
+    return value;
 }
 
 void Emu8086_Memory_WriteWord(address_t address, word_t value) {
