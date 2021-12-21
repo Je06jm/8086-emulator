@@ -1,7 +1,7 @@
 #ifndef EMU8086_STATE_H
 #define EMU8086_STATE_H
 
-#include <types.h>
+#include "types.h"
 
 #define REGISTER_AL 0
 #define REGISTER_CL 1
