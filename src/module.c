@@ -30,7 +30,10 @@ void Emu8086_Module_InitAll() {
     for (uintptr_t i = 0; i < modules.count; i++) {
         module = modules.Index(&modules, i);
         module->_ticks = 0;
-        module->Init();
+
+        if (module->Init != NULL) {
+            module->Init();
+        }
     }
 }
 
@@ -39,7 +42,10 @@ void Emu8086_Module_FinishAll() {
 
     for (uintptr_t i = 0; i < modules.count; i++) {
         module = modules.Index(&modules, i);
-        module->Finish();
+
+        if (module->Finish != NULL) {
+            module->Finish();
+        }
     }
 }
 
@@ -49,7 +55,7 @@ void Emu8086_Module_TickAll() {
     for (uintptr_t i = 0; i < modules.count; i++) {
         module = modules.Index(&modules, i);
 
-        if (module->_ticks == 0) {
+        if ((module->_ticks == 0) && (module->Tick != NULL)) {
             module->Tick();
         }
         
