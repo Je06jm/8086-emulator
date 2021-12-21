@@ -8,6 +8,9 @@ typedef void (*Emu8086_Memory_FuncWriteByte)(address_t address, byte_t value);
 typedef word_t (*Emu8086_Memory_FuncReadWord)(address_t address);
 typedef void (*Emu8086_Memory_FuncWriteWord)(address_t address, word_t value);
 
+void Emu8086_Memory_Init();
+void Emu8086_Memory_Finish();
+
 void Emu8086_Memory_RegisterReadByte(Emu8086_Memory_FuncReadByte* device);
 void Emu8086_Memory_RegisterWriteByte(Emu8086_Memory_FuncWriteByte* device);
 void Emu8086_Memory_RegisterReadWord(Emu8086_Memory_FuncReadWord* device);
