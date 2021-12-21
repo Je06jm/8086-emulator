@@ -53,6 +53,7 @@ void Emu8086_Memory_RegisterWriteWord(Emu8086_Memory_FuncWriteWord device) {
 byte_t Emu8086_Memory_ReadByte(address_t address) {
     byte_t value = 0;
     Emu8086_Memory_FuncReadByte func;
+    address &= 0xfffff;
 
     for (uintptr_t i = 0; i < read_byte_funcs.count; i++) {
         func = read_byte_funcs.Index(&read_byte_funcs, i);
@@ -64,6 +65,7 @@ byte_t Emu8086_Memory_ReadByte(address_t address) {
 
 void Emu8086_Memory_WriteByte(address_t address, byte_t value) {
     Emu8086_Memory_FuncWriteByte func;
+    address &= 0xfffff;
 
     for (uintptr_t i = 0; i < write_byte_funcs.count; i++) {
         func = write_byte_funcs.Index(&write_byte_funcs, i);
@@ -74,6 +76,7 @@ void Emu8086_Memory_WriteByte(address_t address, byte_t value) {
 word_t Emu8086_Memory_ReadWord(address_t address) {
     word_t value = 0;
     Emu8086_Memory_FuncReadWord func;
+    address &= 0xfffff;
 
     for (uintptr_t i = 0; i < read_word_funcs.count; i++) {
         func = read_word_funcs.Index(&read_word_funcs, i);
@@ -85,6 +88,7 @@ word_t Emu8086_Memory_ReadWord(address_t address) {
 
 void Emu8086_Memory_WriteWord(address_t address, word_t value) {
     Emu8086_Memory_FuncWriteWord func;
+    address &= 0xfffff;
 
     for (uintptr_t i = 0; i < write_word_funcs.count; i++) {
         func = write_word_funcs.Index(&write_word_funcs, i);
