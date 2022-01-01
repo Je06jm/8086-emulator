@@ -5,7 +5,6 @@
 
 typedef uint8_t E86_Byte;
 typedef uint16_t E86_Word;
-typedef uint32_t E86_Address;
 
 #ifndef NULL
 #define NULL ((void*)0)

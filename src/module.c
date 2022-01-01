@@ -5,22 +5,22 @@
 ReserveInfo modules;
 
 void E86_ModuleInit() {
-    AllocSetup(&modules, sizeof(EM86_Module));
+    AllocSetup(&modules, sizeof(E86_Module));
 }
 
 void E86_ModuleFinish() {
     AllocFree(&modules);
 }
 
-void E86_ModuleAdd(EM86_Module* module) {
-    EM86_Module* obj_module = AllocObject(&modules);
+void E86_ModuleAdd(E86_Module* module) {
+    E86_Module* obj_module = AllocObject(&modules);
 
     *obj_module = *module;
 }
 
 
 void E86_ModuleInitModules() {
-    EM86_Module* module_list = (EM86_Module*)modules.mem;
+    E86_Module* module_list = (E86_Module*)modules.mem;
     
     for (uint32_t i = 0; i < modules.count; i++) {
         module_list[i].init();
@@ -28,7 +28,7 @@ void E86_ModuleInitModules() {
 }
 
 void E86_ModuleFinishModules() {
-    EM86_Module* module_list = (EM86_Module*)modules.mem;
+    E86_Module* module_list = (E86_Module*)modules.mem;
     
     for (uint32_t i = 0; i < modules.count; i++) {
         module_list[i].finish();
@@ -36,7 +36,7 @@ void E86_ModuleFinishModules() {
 }
 
 void E86_ModuleTickModules() {
-    EM86_Module* module_list = (EM86_Module*)modules.mem;
+    E86_Module* module_list = (E86_Module*)modules.mem;
     
     for (uint32_t i = 0; i < modules.count; i++) {
         if (module_list[i].counter == 0) {

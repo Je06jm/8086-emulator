@@ -31,6 +31,13 @@ void E86_InterruptsLowerNMInterrupt() {
 }
 
 bool E86_InterruptsHasNMInterrupt() {
-    return NMInterrupts != 0;
+    static bool last_NMIs = false;
+    bool has_NMIs = NMInterrupts != 0;
+    bool ret = false;
+
+    ret = ((last_NMIs != has_NMIs) && has_NMIs);
+    has_NMIs = NMInterrupts;
+    
+    return ret;
 }
 

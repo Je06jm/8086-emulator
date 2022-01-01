@@ -4,11 +4,13 @@
 #include "types.h"
 #include <stdbool.h>
 
-extern bool running;
+void E86_StateInit();
 
-extern E86_Byte regs[8];
-extern E86_Word segs[4];
+extern bool Running;
+
+extern E86_Byte A, X, Y;
+extern E86_Byte Flags;
+extern E86_Byte Stack;
 extern E86_Word IP;
-extern E86_Word Flags;
 
 #endif
