@@ -25,7 +25,7 @@ void* AllocObject(ReserveInfo* info) {
         }
 
         info->reserved += ALLOC_HEALPER_NEW_ALLOC_COUNT;
-        info->mem = new_mem_size;
+        info->mem = new_mem;
     }
 
     uintptr_t addr = (uintptr_t)(info->mem);

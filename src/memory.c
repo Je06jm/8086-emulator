@@ -46,6 +46,4 @@ void E86_MemoryWriteByte(E86_Word address, E86_Byte value) {
     for (uint32_t i = 0; i < write_bytes.count; i++) {
         funcs[i](address, value);
     }
-
-    return value;
 }

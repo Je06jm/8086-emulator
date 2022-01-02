@@ -6,9 +6,9 @@
 
 void E86_InterruptsInit();
 
-void E86_InterruptsRaiseInterrupt(E86_Byte interrupt);
-void E86_InterruptsLowerInterrupt();
+void E86_InterruptSetInterrupt(bool interrupt);
 bool E86_InterruptsHasInterrupt();
-E86_Byte E86_InterruptsGetInterrupt();
+void E86_InterruptTriggerNMInterrupt();
+bool E86_InterruptHasNMInterrupt();
 
 #endif

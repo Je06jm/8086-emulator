@@ -2,42 +2,31 @@
 
 #include <stdint.h>
 
-uint32_t interrupts = 0;
-uint32_t NMInterrupts = 0;
+bool has_interrupts;
+bool has_NMInterrupts;
 
 void E86_InterruptsInit() {
-    interrupts = 0;
-    NMInterrupts = 0;
+    has_interrupts = false;
+    has_NMInterrupts = false;
 }
 
-void E86_InterruptsRaiseInterrupt() {
-    interrupts++;
-}
-
-void E86_InterruptsLowerInterrupt() {
-    interrupts--;
+void E86_InterruptSetInterrupt(bool interrupt) {
+    has_interrupts = interrupt;
 }
 
 bool E86_InterruptsHasInterrupt() {
-    return interrupts != 0;
+    return has_interrupts;
 }
 
-void E86_InterruptsRaiseNMInterrupt() {
-    NMInterrupts++;
+void E86_InterruptTriggerNMInterrupt() {
+    has_NMInterrupts = true;
 }
+bool E86_InterruptHasNMInterrupt(){
+    if (has_NMInterrupts) {
+        has_NMInterrupts = false;
+        return true;
+    }
 
-void E86_InterruptsLowerNMInterrupt() {
-    NMInterrupts--;
-}
-
-bool E86_InterruptsHasNMInterrupt() {
-    static bool last_NMIs = false;
-    bool has_NMIs = NMInterrupts != 0;
-    bool ret = false;
-
-    ret = ((last_NMIs != has_NMIs) && has_NMIs);
-    has_NMIs = NMInterrupts;
-    
-    return ret;
+    return false;
 }
 
