@@ -6,11 +6,15 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+// Read only memory
 E65_Byte ROM[0x2000];
+// Read/write memory
 E65_Byte RAM[0x400];
+// Write only memory
 E65_Byte OUT[0x20];
 bool running = true;
 
+// ROM memory read function
 E65_Byte ROM_read(E65_Word addr) {
     if (addr >= 0xe000) {
         return ROM[addr - 0xe000];
@@ -19,6 +23,7 @@ E65_Byte ROM_read(E65_Word addr) {
     return 0;
 }
 
+// ROM module init function
 void ROM_init() {
     FILE* file = fopen("ROM.bin", "rb");
     if (file == NULL) {
@@ -41,6 +46,7 @@ void ROM_init() {
     E65_MemoryRegisterReadByte(ROM_read);
 }
 
+// RAM read memory function
 E65_Byte RAM_read(E65_Word addr) {
     if (addr < 0x400) {
         return RAM[addr];
@@ -49,17 +55,20 @@ E65_Byte RAM_read(E65_Word addr) {
     return 0;
 }
 
+// RAM write memory function
 void RAM_write(E65_Word addr, E65_Byte value) {
     if (addr < 0x400) {
         RAM[addr] = value;
     }
 }
 
+// RAM module init function
 void RAM_init() {
     E65_MemoryRegisterReadByte(RAM_read);
     E65_MemoryRegisterWriteByte(RAM_write);
 }
 
+// OUT read memory function. Reading from the OUT memory stoppes the machine
 E65_Byte OUT_read(E65_Word addr) {
     if ((addr >= 0x8000) && (addr < 0x8020)) {
         running = false;
@@ -67,17 +76,20 @@ E65_Byte OUT_read(E65_Word addr) {
     return 0;
 }
 
+// OUT write memory function
 void OUT_write(E65_Word addr, E65_Byte value) {
     if ((addr >= 0x8000) && (addr < 0x8020)) {
         OUT[addr - 0x8000] = value;
     }
 }
 
+// OUT module init function
 void OUT_init() {
     E65_MemoryRegisterReadByte(OUT_read);
     E65_MemoryRegisterWriteByte(OUT_write);
 }
 
+// OUT module finish function
 void OUT_finish() {
     FILE* file = fopen("OUT.bin", "wb");
     if (file == NULL) {
@@ -91,6 +103,7 @@ void OUT_finish() {
 int main() {
     E65_Init();
 
+    // Module definitions
     E65_Module ROMModule = {
         .init = ROM_init
     };
@@ -104,6 +117,7 @@ int main() {
         .finish = OUT_finish
     };
     
+    // Module registrations
     E65_ModuleAdd(&ROMModule);
     E65_ModuleAdd(&RAMModule);
     E65_ModuleAdd(&OUTModule);

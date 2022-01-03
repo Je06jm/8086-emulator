@@ -53,4 +53,4 @@ dkms.conf
 
 # Misc
 .vscode/
-*.bin
+.sconsign.dblite

@@ -16,11 +16,10 @@
 
 // Helper debug macros
 #define DEBUG_OP(name) DEBUG_PRINT("PC %x: %s\n", IP, name)
-#define DEBUG_OP_OPERAND(name, op) E65_Debug("PC %x: %s 0x%x\n", IP, name, op)
+#define DEBUG_OP_OPERAND(name, op) DEBUG_PRINT("PC %x: %s 0x%x\n", IP, name, op)
 
 // This is set true until the first tick after init is called
 bool first_tick = false;
-
 
 void E65_Init() {
     // Initializes the system
