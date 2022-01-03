@@ -1,5 +1,9 @@
-#ifndef EMULATOR_8086_OPCODES_H
-#define EMULATOR_8086_OPCODES_H
+#ifndef EMULATOR_6502_OPCODES_H
+#define EMULATOR_6502_OPCODES_H
+
+// A list of 6502 opcodes and address specifiers.
+// See https://llx.com/Neil/a2/opcodes.html and
+// https://www.masswerk.at/6502/6502_instruction_set.html for more info
 
 #define MASK_AAA 0b11100000
 #define MASK_BBB 0b00011100

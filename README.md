@@ -1,2 +1,2 @@
-# 8086-emulator
-An 8086 emulator
+# 6502-emulator
+An 6502 emulator

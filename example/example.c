@@ -1,17 +1,17 @@
-#include <E86/module.h>
-#include <E86/memory.h>
-#include <E86/E86.h>
-#include <E86/error.h>
+#include <E65/module.h>
+#include <E65/memory.h>
+#include <E65/E65.h>
+#include <E65/error.h>
 
 #include <stdio.h>
 #include <stdbool.h>
 
-E86_Byte ROM[0x2000];
-E86_Byte RAM[0x400];
-E86_Byte OUT[0x20];
+E65_Byte ROM[0x2000];
+E65_Byte RAM[0x400];
+E65_Byte OUT[0x20];
 bool running = true;
 
-E86_Byte ROM_read(E86_Word addr) {
+E65_Byte ROM_read(E65_Word addr) {
     if (addr >= 0xe000) {
         return ROM[addr - 0xe000];
     }
@@ -22,7 +22,7 @@ E86_Byte ROM_read(E86_Word addr) {
 void ROM_init() {
     FILE* file = fopen("ROM.bin", "rb");
     if (file == NULL) {
-        E86_Error("Could not open file 'ROM.bin'");
+        E65_Error("Could not open file 'ROM.bin'");
     }
     
     fseek(file, 0, SEEK_END);
@@ -30,18 +30,18 @@ void ROM_init() {
     fseek(file, 0, SEEK_SET);
 
     if (size < 0x2000) {
-        E86_Error("ROM.bin is less than 8 KiBs");
+        E65_Error("ROM.bin is less than 8 KiBs");
     } else if (size > 0x2000) {
-        E86_Error("ROM.bin is more than 8 KiBs");
+        E65_Error("ROM.bin is more than 8 KiBs");
     }
 
     fread(ROM, 1, size, file);
     fclose(file);
 
-    E86_MemoryRegisterReadByte(ROM_read);
+    E65_MemoryRegisterReadByte(ROM_read);
 }
 
-E86_Byte RAM_read(E86_Word addr) {
+E65_Byte RAM_read(E65_Word addr) {
     if (addr < 0x400) {
         return RAM[addr];
     }
@@ -49,39 +49,39 @@ E86_Byte RAM_read(E86_Word addr) {
     return 0;
 }
 
-void RAM_write(E86_Word addr, E86_Byte value) {
+void RAM_write(E65_Word addr, E65_Byte value) {
     if (addr < 0x400) {
         RAM[addr] = value;
     }
 }
 
 void RAM_init() {
-    E86_MemoryRegisterReadByte(RAM_read);
-    E86_MemoryRegisterWriteByte(RAM_write);
+    E65_MemoryRegisterReadByte(RAM_read);
+    E65_MemoryRegisterWriteByte(RAM_write);
 }
 
-E86_Byte OUT_read(E86_Word addr) {
+E65_Byte OUT_read(E65_Word addr) {
     if ((addr >= 0x8000) && (addr < 0x8020)) {
         running = false;
     }
     return 0;
 }
 
-void OUT_write(E86_Word addr, E86_Byte value) {
+void OUT_write(E65_Word addr, E65_Byte value) {
     if ((addr >= 0x8000) && (addr < 0x8020)) {
         OUT[addr - 0x8000] = value;
     }
 }
 
 void OUT_init() {
-    E86_MemoryRegisterReadByte(OUT_read);
-    E86_MemoryRegisterWriteByte(OUT_write);
+    E65_MemoryRegisterReadByte(OUT_read);
+    E65_MemoryRegisterWriteByte(OUT_write);
 }
 
 void OUT_finish() {
     FILE* file = fopen("OUT.bin", "wb");
     if (file == NULL) {
-        E86_Error("Could not open 'OUT.bin' for writting");
+        E65_Error("Could not open 'OUT.bin' for writting");
     }
 
     fwrite(OUT, 1, sizeof(OUT), file);
@@ -89,31 +89,31 @@ void OUT_finish() {
 }
 
 int main() {
-    E86_Init();
+    E65_Init();
 
-    E86_Module ROMModule = {
+    E65_Module ROMModule = {
         .init = ROM_init
     };
 
-    E86_Module RAMModule = {
+    E65_Module RAMModule = {
         .init = RAM_init
     };
 
-    E86_Module OUTModule = {
+    E65_Module OUTModule = {
         .init = OUT_init,
         .finish = OUT_finish
     };
     
-    E86_ModuleAdd(&ROMModule);
-    E86_ModuleAdd(&RAMModule);
-    E86_ModuleAdd(&OUTModule);
+    E65_ModuleAdd(&ROMModule);
+    E65_ModuleAdd(&RAMModule);
+    E65_ModuleAdd(&OUTModule);
 
-    E86_ModuleInitModules();
+    E65_ModuleInitModules();
 
     while (running) {
-        E86_Tick();
+        E65_Tick();
     }
 
-    E86_ModuleFinishModules();
-    E86_Finish();
+    E65_ModuleFinishModules();
+    E65_Finish();
 }

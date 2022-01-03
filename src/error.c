@@ -1,22 +1,26 @@
-#include <E86/error.h>
+#include <E65/error.h>
 
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
-void E86_DefaultErrorHandler(const char* error) {
+// Default error handler
+void E65_DefaultErrorHandler(const char* error) {
     printf("%s\n", error);
     exit(EXIT_FAILURE);
 }
 
-E86_ErrorFunction_Handler err_handler = E86_DefaultErrorHandler;
+// The pointer to the current error handler
+E65_ErrorFunction_Handler err_handler = E65_DefaultErrorHandler;
 
-void E86_ErrorSetHandler(E86_ErrorFunction_Handler handler) {
+void E65_ErrorSetHandler(E65_ErrorFunction_Handler handler) {
     err_handler = handler;
 }
 
-void E86_Error(const char* format, ...) {
+void E65_Error(const char* format, ...) {
+    // Formats the error then call the error handler. If no error handler is
+    // available, then print an error and then exit(EXIT_FAILURE)
     va_list va;
     va_start(va, format);
 
