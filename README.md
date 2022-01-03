@@ -1,4 +1,4 @@
-# 6502-emulator
+# Emulator 6502
 An 6502 emulator. The CPU is emulated, but no memory devices are provided by
 default. Functions are available to add memory devices
 
